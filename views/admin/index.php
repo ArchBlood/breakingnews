@@ -1,49 +1,59 @@
 <?php
 
-use humhub\compat\CActiveForm;
+use humhub\modules\content\widgets\richtext\RichText;
+use humhub\modules\content\widgets\richtext\RichTextField;
+use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <div class="panel panel-default">
-    <div class="panel-heading"><?php echo Yii::t('BreakingnewsModule.views_admin_index', 'Breaking News Configuration'); ?></div>
+    <div class="panel-heading"><?= Yii::t('BreakingnewsModule.views_admin_index', 'Breaking News Configuration'); ?></div>
     <div class="panel-body">
 
-        <?php $form = CActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
-        <?php echo $form->errorSummary($model); ?>
+        <?= $form->errorSummary($model); ?>
 
 
         <div class="form-group">
             <div class="checkbox">
                 <label for="editform-active">
-                    <?php echo $form->checkBox($model, 'active'); ?> <?php echo $model->getAttributeLabel('active'); ?>
+                    <?= $form->checkBox($model, 'active'); ?> <?= $model->getAttributeLabel('active'); ?>
                 </label>
             </div>
         </div>
-        <?php echo $form->field($model, 'title', ['inputOptions' =>['class' => 'form-control']]); ?>
-        <?php echo $form->error($model, 'title'); ?>
+        <?= $form->field($model, 'title', ['inputOptions' =>['class' => 'form-control']]); ?>
+        <?= $form->error($model, 'title'); ?>
         <div class="form-group">
-             <?php echo $form->field($model, 'message', ['inputOptions' => ['class' => 'form-control', 'id' => 'newMessageText']])->textarea(); ?>
-             <?php echo \humhub\widgets\MarkdownEditor::widget(array('fieldId' => 'newMessageText')); ?>
-             <?php echo $form->error($model, 'message'); ?>
-            <p class="help-block"><?php echo Yii::t('BreakingnewsModule.views_admin_index', 'Note: You can use markdown syntax.'); ?></p>
+             <?= $form->field($model, 'message', ['inputOptions' => ['class' => 'form-control', 'id' => 'newMessageText']])->textarea(); ?>
+             <?= $form->field($model, 'newMessageText')->widget(RichTextField::class, [
+                    'id' => $model->id,
+                    'layout' => RichTextField::LAYOUT_BLOCK,
+                    'focus' => true,
+                    'pluginOptions' => ['maxHeight' => '300px'],
+                    'preset' => 'full',
+                    'placeholder' => Yii::t('BreakingnewsModule.views_admin_index', 'Edit your discussion...')
+                ]
+                ) ?>
+             <?= $form->error($model, 'message'); ?>
+            <p class="help-block"><?= Yii::t('BreakingnewsModule.views_admin_index', 'Note: You can use some markdown syntax.'); ?></p>
 
         </div>
 
         <div class="form-group">
             <div class="checkbox">
                 <label for="editform-reset">
-                    <?php echo $form->checkBox($model, 'reset'); ?> <?php echo $model->getAttributeLabel('reset'); ?>
+                    <?= $form->checkBox($model, 'reset'); ?> <?= $model->getAttributeLabel('reset'); ?>
                 </label>
             </div>
         </div>
 
         <hr>
 
-        <?php echo Html::submitButton(Yii::t('BreakingnewsModule.views_admin_index', 'Save'), array('class' => 'btn btn-primary')); ?>
-        <a class="btn btn-default" href="<?php echo Url::to(['/admin/module']); ?>"><?php echo Yii::t('BreakingnewsModule.views_admin_index', 'Back to modules'); ?></a>
+        <?= Html::submitButton(Yii::t('BreakingnewsModule.views_admin_index', 'Save'), ['class' => 'btn btn-primary']); ?>
+        <a class="btn btn-default" href="<?= Url::to(['/admin/module']); ?>"><?= Yii::t('BreakingnewsModule.views_admin_index', 'Back to modules'); ?></a>
 
-        <?php CActiveForm::end(); ?>
+        <?php ActiveForm::end(); ?>
 
     </div>
 </div>
