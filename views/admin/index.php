@@ -32,7 +32,7 @@ use yii\helpers\Url;
                     'focus' => true,
                     'pluginOptions' => ['maxHeight' => '300px'],
                     'preset' => 'full',
-                    'placeholder' => Yii::t('BreakingnewsModule.views_admin_index', 'Edit your discussion...')
+                    'placeholder' => Yii::t('BreakingnewsModule.views_admin_index', 'Add your message here...')
                 ]
                 ) ?>
              <?= $form->error($model, 'message'); ?>
